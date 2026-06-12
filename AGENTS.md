@@ -107,3 +107,36 @@ For every task:
 4. Implement only the active task.
 5. Run relevant checks.
 6. Summarize changed files, behavior, check results, and remaining issues.
+
+
+## Selected model
+
+The local editing model is:
+
+```text
+Qwen/Qwen-Image-Edit-2511
+```
+
+It runs in a separate Python/PyTorch service.
+
+## Boundaries
+
+The browser calls only:
+
+```text
+POST /api/offroadify
+```
+
+Next.js owns upload validation, prompt selection, provider selection, safe error mapping, and browser responses.
+
+The Python service owns model loading, GPU management, inference, concurrency, and PNG generation.
+
+## Rules
+
+1. Do not load Qwen inside Next.js or a Vercel function.
+2. Do not reload Qwen per request.
+3. Do not commit weights.
+4. Do not expose inference tokens to the browser.
+5. Keep Cloudflare only as a temporary fallback until Qwen is proven.
+6. Test the official checkpoint path before introducing community quantizations.
+7. Keep future LoRA, SAM, and control work behind the stable application API.

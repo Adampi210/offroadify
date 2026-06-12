@@ -44,14 +44,10 @@ Request:
 
 ```text
 multipart/form-data
-image: File
+image: File (image/jpeg, image/png, or image/webp; max 5 MB)
 ```
 
-Success response:
-
-```json
-{ "imageUrl": "<generated image representation>" }
-```
+Success response: the generated image as a binary `image/png` body with `Cache-Control: no-store`.
 
 Failure response:
 
@@ -61,10 +57,10 @@ Failure response:
 
 Responsibilities:
 
-- Validate image presence, MIME type, and size
-- Read `OPENAI_API_KEY` server-side
+- Validate image presence, MIME type, and size (5 MB prototype limit)
+- Read `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` server-side
 - Use the fixed MVP prompt
-- Call the image-editing provider
+- Call the image-editing provider via the adapter in `lib/image-generation/`
 - Return safe output without storing images
 
 Likely file:
